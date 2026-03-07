@@ -8,7 +8,7 @@ from pathlib import Path
 # 参数修改后请重新运行本生成器以更新 JSON 配置
 # ==========================================
 class UserConfig:
-    STRENGTH = 1.5                                         # 水印嵌入强度 (推荐: 1.0 - 2.5)
+    STRENGTH = 2.0                                         # 水印嵌入强度 (推荐: 1.0 - 2.5)
     MAX_WATERMARK_LENGTH = 32                              # 预期写入的最大文本长度
     CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"  # 字符集字典
     MODEL_NAME = "pixelseal"                               # 使用的隐写模型版本

@@ -39,19 +39,19 @@ class VideoSealConfig:
     """Configuration container for VideoSeal operations."""
     # Logic parameters (editable)
     input_path: Path
-    watermark_text: str = "12345678901234567890123456789012"
-    save_quality: int = 95
+    watermark_text: str = ""
+    save_quality: int = 0
     supported_exts: List[str] = field(default_factory=lambda: ['.jpg', '.png', '.jpeg', '.webp'])
 
     # Dynamic parameters (loaded from bch_config.json)
-    strength: float = 1.0
-    model_name: str = "pixelseal"
-    device: str = "mps"
+    strength: float = 0.0
+    model_name: str = ""
+    device: str = ""
     charset: str = ""
-    max_watermark_length: int = 32
-    bits_per_char: int = 6
-    bch_poly: int = 137
-    bch_t: int = 2
+    max_watermark_length: int = 0
+    bits_per_char: int = 0
+    bch_poly: int = 0
+    bch_t: int = 0
     data_bytes: int = 0
 
     @classmethod
@@ -70,15 +70,15 @@ class VideoSealConfig:
             return cls(
                 input_path=Path(input_path),
                 watermark_text=watermark_text or cls.watermark_text,
-                strength=data.get("STRENGTH", 1.0),
-                model_name=data.get("MODEL_NAME", "pixelseal"),
-                device=data.get("DEVICE", "cpu"),
-                charset=data.get("CHARSET", ""),
-                max_watermark_length=data.get("MAX_WATERMARK_LENGTH", 32),
-                bits_per_char=data.get("BITS_PER_CHAR", 6),
-                bch_poly=data.get("BCH_POLY", 137),
-                bch_t=data.get("BCH_T", 2),
-                data_bytes=data.get("DATA_BYTES", 0)
+                strength=data["STRENGTH"],
+                model_name=data["MODEL_NAME"],
+                device=data["DEVICE"],
+                charset=data["CHARSET"],
+                max_watermark_length=data["MAX_WATERMARK_LENGTH"],
+                bits_per_char=data["BITS_PER_CHAR"],
+                bch_poly=data["BCH_POLY"],
+                bch_t=data["BCH_T"],
+                data_bytes=data["DATA_BYTES"]
             )
         except Exception as e:
             logger.error(f"Failed to load configuration JSON: {e}")
@@ -312,30 +312,41 @@ def run_pipeline(config: VideoSealConfig):
             print(f"⚠️ ERROR: {e}")
 
 
+# ==========================================================================
+# ⚙️ USER CONFIGURATION
+# Modify these parameters directly to control the watermarking process
+# ==========================================================================
+
+# Path to the input image or directory containing images
+INPUT_PATHStr = "val2017_subset"
+
+# The watermark text (string) to embed into the images
+WATERMARK_TEXT = "1234567890"
+
+# Path to the dynamically generated BCH configuration file
+CONFIG_JSON_PATHStr = "bch_config.json"
+
+# Output JPEG quality (1-100, 95 is recommended for preserving watermark)
+SAVE_QUALITY = 95
+
+# ==========================================================================
+
 if __name__ == "__main__":
-    import argparse
 
-    # Script directory root for relative assets
     SCRIPT_ROOT = Path(__file__).parent.absolute()
-
-    parser = argparse.ArgumentParser(description="Professional VideoSeal Watermarking Demo")
-    parser.add_argument("--input", "-i", type=str, default=str(SCRIPT_ROOT / "val2017_subset"),
-                        help="Input image or directory path")
-    parser.add_argument("--text", "-t", type=str, default="12345678901234567890123456789012",
-                        help="Watermark text to embed")
-    parser.add_argument("--config", "-c", type=str, default=str(SCRIPT_ROOT / "bch_config.json"),
-                        help="BCH configuration JSON path")
-    parser.add_argument("--quality", "-q", type=int, default=95,
-                        help="Output JPEG quality (1-100)")
-
-    args = parser.parse_args()
+    input_path = SCRIPT_ROOT / INPUT_PATHStr
+    config_path = SCRIPT_ROOT / CONFIG_JSON_PATHStr
 
     # Load and execute
-    v_config = VideoSealConfig.from_json(
-        config_path=Path(args.config),
-        input_path=Path(args.input),
-        watermark_text=args.text
-    )
-    v_config.save_quality = args.quality
+    try:
+        v_config = VideoSealConfig.from_json(
+            config_path=config_path,
+            input_path=input_path,
+            watermark_text=WATERMARK_TEXT
+        )
+        v_config.save_quality = SAVE_QUALITY
+    except Exception as e:
+        logger.error(f"Failed to initialize configuration: {e}")
+        sys.exit(1)
 
     run_pipeline(v_config)
