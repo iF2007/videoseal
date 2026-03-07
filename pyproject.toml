@@ -12,7 +12,6 @@ dependencies = [
     "PyWavelets",
     "av",
     "calflops",
-    "decord",
     "einops",
     "lpips",
     "omegaconf",

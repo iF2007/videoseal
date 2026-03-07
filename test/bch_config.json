@@ -1,0 +1,24 @@
+{
+    "_COMMENTS": {
+        "STRENGTH": "Watermark intensity scalar.",
+        "MODEL_NAME": "Model architecture utilized.",
+        "DEVICE": "Hardware inference device.",
+        "CHARSET": "String defining allowable encoding dimension.",
+        "MAX_WATERMARK_LENGTH": "Length limitation of the encoded payload string.",
+        "BITS_PER_CHAR": "Mathematical bits ceiling required per character based on CHARSET.",
+        "BCH_POLY": "BCH generating polynomial primitive integer.",
+        "BCH_T": "Maximum correctable bit errors initialized by the BCH instance.",
+        "DATA_BYTES": "Real volume requirement to house watermark data payload.",
+        "ECC_BYTES": "Reserved byte volume allocated for Error Correction."
+    },
+    "STRENGTH": 1.5,
+    "MODEL_NAME": "pixelseal",
+    "DEVICE": "cpu",
+    "CHARSET": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_",
+    "MAX_WATERMARK_LENGTH": 32,
+    "BITS_PER_CHAR": 6,
+    "BCH_POLY": 529,
+    "BCH_T": 7,
+    "DATA_BYTES": 24,
+    "ECC_BYTES": 8
+}
