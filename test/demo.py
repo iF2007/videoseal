@@ -94,17 +94,22 @@ class VideoSealEngine:
     def __init__(self, config: VideoSealConfig):
         self.config = config
 
-        # --- 强制优先级：MPS (Mac GPU) > CUDA (Nvidia GPU) > CPU ---
-        if torch.backends.mps.is_available():
+        # Use device specified from the JSON configuration
+        requested_device = config.device.lower().strip()
+        
+        # Validate/Fallback mechanism
+        if requested_device == "mps" and torch.backends.mps.is_available():
             self.device = torch.device("mps")
-        elif torch.cuda.is_available():
+        elif requested_device == "cuda" and torch.cuda.is_available():
             self.device = torch.device("cuda")
+        elif requested_device == "cpu":
+            self.device = torch.device("cpu")
         else:
+            logger.warning(f"Device '{requested_device}' requested but unavailable. Falling back to CPU.")
             self.device = torch.device("cpu")
 
         # 这一行确保你能看到最终结果
-        logger.info(f"🚀 HARDWARE ACCELERATION ENABLED: {self.device}")
-        logger.info(f"Loading {config.model_name} model on {self.device}...")
+        logger.info(f"🚀 Loading {config.model_name} model on {self.device}...")
 
         # Initialize BCH Engine
         try:

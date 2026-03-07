@@ -13,7 +13,7 @@
     },
     "STRENGTH": 2.0,
     "MODEL_NAME": "pixelseal",
-    "DEVICE": "cpu",
+    "DEVICE": "mps",
     "CHARSET": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_",
     "MAX_WATERMARK_LENGTH": 32,
     "BITS_PER_CHAR": 6,

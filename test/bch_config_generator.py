@@ -12,7 +12,7 @@ class UserConfig:
     MAX_WATERMARK_LENGTH = 32                              # 预期写入的最大文本长度
     CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"  # 字符集字典
     MODEL_NAME = "pixelseal"                               # 使用的隐写模型版本
-    DEVICE = "cpu"                                         # 推理硬件 (cpu / cuda / mps)
+    DEVICE = "mps"                                         # 推理硬件 (cpu / cuda / mps)
     OUTPUT_FILE = str(Path(__file__).parent / "bch_config.json") # 配置文件输出路径
 # ==========================================
 
