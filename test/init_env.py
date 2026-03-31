@@ -8,7 +8,7 @@ import torch
 # ==========================================
 class Config:
     # --- 环境测试配置 ---
-    MODEL_NAME = "videoseal"    # 要测试加载的模型名称: "videoseal", "pixelseal" 或 "chunkyseal"
+    MODEL_NAME = "pixelseal"    # 要测试加载的模型名称: "videoseal", "pixelseal" 或 "chunkyseal"。默认"pixelseal"，因为水印鲁棒性和嵌入/提取性能最平衡
     FORCE_DEVICE = None         # 强制使用的设备，例如 "cpu", "cuda", "mps"；保持 None 则为自动检测最佳设备
 # ==========================================
 
